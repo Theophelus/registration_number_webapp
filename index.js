@@ -18,16 +18,27 @@ app.use(session({
 }));
 // initialise the flash middleware
 app.use(flash());
-
 //configure express handlebars
 app.engine('handlebars', exphbs({
     defaultLayout: 'main'
 }));
 app.set('view engine', 'handlebars');
-
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-
 // parse application/json
 app.use(bodyParser.json());
+
+//configure public for=lder for static files
+app.use(express.static('public'));
+
+//define a get route handler to render home
+app.get('/', (req, res) => {
+    res.render('home');
+});
+
+
+let PORT = process.env.PORT || 3020;
+app.listen(PORT, () => {
+    console.log('app starting on PORT', PORT);
+});

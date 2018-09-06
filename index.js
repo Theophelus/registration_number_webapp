@@ -19,3 +19,15 @@ app.use(session({
 // initialise the flash middleware
 app.use(flash());
 
+//configure express handlebars
+app.engine('handlebars', exphbs({
+    defaultLayout: 'main'
+}));
+app.set('view engine', 'handlebars');
+
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
+
+// parse application/json
+app.use(bodyParser.json());

@@ -28,7 +28,6 @@ app.use(bodyParser.urlencoded({
 }));
 // parse application/json
 app.use(bodyParser.json());
-
 //configure public for=lder for static files
 app.use(express.static('public'));
 

@@ -11,7 +11,7 @@ var registration = function(initialValue){
       if(numbers !==''){
         registrationNumber = numbers;
         var regList = ['CA', 'CJ', 'CAW', 'CL'];
-        //Check if the map is empty, if empty and REGISTRATION NUMBER
+        //Check if the map is emptcdpr  regi  y, if empty and REGISTRATION NUMBER
         if(registrationMap[registrationNumber]=== undefined){
           for(var i=0; i< regList.length; i++){
             if(registrationNumber.startsWith(regList[i])){

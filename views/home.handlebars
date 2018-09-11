@@ -11,9 +11,9 @@
   <div class="registration">
     <div class="row">
       <div class="twelve columns" style="margin-top: 5%">
-        <form class="" action="index.html" method="post">
-          <span>Registration Number:<input type="text" class="inputTxt" pattern="" required> <button type="button" class="button-primary add">add</button>
-            <button type="button" class=" button-primary reset" style="background-color: #c0392b; border: 0px soloid  #c0392b;">reset</button></span>
+        <form class="" action="/reg_number" method="post">
+          <span>Registration Number:<input type="text" class="inputTxt" name= 'inputTxt'> <button type="submit" class="button-primary add" name='button'>add</button>
+            {{!-- <button type="button" class=" button-primary reset" style="background-color: #c0392b; border: 0px soloid  #c0392b;">reset</button></span> --}}
         </form>
       </div>
     </div>
@@ -39,9 +39,11 @@
     <h6>DISPLAY REGISTRATION NUMBERS:</h6>
     <div class="row">
       <div class="twelve columns">
+      {{#each registration_plates}}
         <ul class="display">
-
+        <li> {{registration_plates}} </li>
         </ul>
+        {{/each}}
       </div>
     </div>
   </div>

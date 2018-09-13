@@ -31,8 +31,6 @@ const pool = new Pool({
     connectionString
     // ssl: useSSL
 });
-
-
 // define instance of factory function
 let regNumber = Reg_numbers(pool);
 //configure express handlebars
@@ -52,10 +50,12 @@ app.use(express.static('public'));
 app.get('/', (req, res) => res.render('home'));
 // define a POST ROUTE HANDLER TO ENTER REGISTATIONS INTO THE DATABASE
 app.post('/reg_number', async (req, res, next) => {
+    // var regList = ['CA', 'CY', 'CL', 'CAW'];
+
     try {
         let enterReg = req.body.inputTxt;
-        console.log(enterReg);
-        console.log( await regNumber.addRegistration(enterReg));
+        //console.log(await regNumber.townCodes());
+        // console.log(await regNumber.addRegistration(enterReg));
         res.render('home', await regNumber.addRegistration(enterReg));
     } catch (error) {
         console.log(next(error.stack));

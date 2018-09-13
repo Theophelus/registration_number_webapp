@@ -1,24 +1,46 @@
 module.exports = function (pool) {
+
+
     //define a function call setReg with one parameter
     let addRegistration = async (regNumbers) => {
+        
+
+        let getCodes = await townCodes();
+        let registrations = regNumbers.substring(0,3).trim();
+
         if (regNumbers !== '') {
-            let registrations = regNumbers;
-            //Define a query to get town codes
-            let checkCodes = await pool.query('select town_code from towns where town_code= $1', [registrations]);
-            //define a query to get town ID and compare with town_codes
-            let townId = await pool.query('select id from towns where town_code = $1',[checkCodes]);
-            if (registrations.rowCount === 0) {
-                // checkCodes.filter( async function(getTowns){
-                    // if(registrations.startsWith(getTowns.rowCount)){
-                        await pool.query('insert into registration_numbers(registatation_plates, towns_id) values($1, $2)', [registrations, townId]);
+            //loop through tags and check if it regnumber coming in starts with tag
+            for (let i = 0; i < getCodes.length; i++) {
+                const element = getCodes[i].town_code;
+                //console.log(element);
+                if (regNumbers.startsWith(element)) {
+                    //Check if registration alread exists
+                    let checkReg = await pool.query('select * from registration_numbers where registration_plates = $1', [regNumbers]);
+                    if (checkReg.rowCount === 0) {
+                        let regId = await getTownId(registrations);
+                        await pool.query('insert into registration_numbers(registration_plates, towns_id) values($1, $2)', [regNumbers, regId.id]);
                     }
-                // });
-                return registrations;
-            // }
+                    break;
+                }
+            }
         }
     }
+    //define a function to get townId
+    let getTownId = async (id) => {
+        let townId = await pool.query('select id from towns where town_code = $1', [id]);
+        //console.log(townId.rows[0]);
+        return townId.rows[0];
+    }
+    
+    //define a function to get town codes/tags
+    let townCodes = async function () {
+        let townCode = await pool.query('select town_code from towns');
+        return townCode.rows;
 
+    }
     return {
-        addRegistration
+        addRegistration,
+        getTownId,
+        townCodes
     }
 }

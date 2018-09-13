@@ -62,6 +62,7 @@
 }
 
 .display {
+    text-align: center;
     position: relative;
     box-sizing: border-box;
 }

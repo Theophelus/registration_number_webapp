@@ -47,16 +47,25 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 //define a get route handler to render home
-app.get('/', (req, res) => res.render('home'));
+app.get('/', async (req, res, next) => {
+    try {
+        let display = await regNumber.getReg();
+        res.render('home', {
+            display
+        });
+    } catch (error) {
+        console.log(next(error.stack));
+    }
+});
 // define a POST ROUTE HANDLER TO ENTER REGISTATIONS INTO THE DATABASE
 app.post('/reg_number', async (req, res, next) => {
-    // var regList = ['CA', 'CY', 'CL', 'CAW'];
-
     try {
         let enterReg = req.body.inputTxt;
-        //console.log(await regNumber.townCodes());
-        // console.log(await regNumber.addRegistration(enterReg));
-        res.render('home', await regNumber.addRegistration(enterReg));
+        let display = await regNumber.addRegistration(enterReg);
+        res.render('home', {
+            display:
+            await regNumber.getReg()
+        });
     } catch (error) {
         console.log(next(error.stack));
     }

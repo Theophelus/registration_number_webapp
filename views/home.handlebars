@@ -12,10 +12,11 @@
     <div class="row">
       <div class="twelve columns" style="margin-top: 5%">
         <form class="" action="/reg_number" method="post">
-          <span>Registration Number:<input type="text" class="inputTxt" name='inputTxt'> <button type="submit" class="button-primary add"
-              name='button'>add</button>
-            {{!-- <button type="button" class=" button-primary reset" style="background-color: #c0392b; border: 0px soloid  #c0392b;">reset</button></span>
-          --}}
+          <span>Registration Number:<input type="text" class="inputTxt" name='inputTxt'>
+            <button type="submit" class="button-primary add" name='button'>add</button>
+            {{!-- <button type="button" class=" button-primary reset" style="background-color: #c0392b; border: 0px soloid  #c0392b;">reset</button>
+            --}}
+          </span>
         </form>
       </div>
     </div>
@@ -39,16 +40,20 @@
   <br>
   <div>
     <h6>DISPLAY REGISTRATION NUMBERS:</h6>
+
+
+
     <div class="row">
       <div class="twelve columns">
-        <ul class="display">
-          {{#each registration_plates}}
-          <li> {{this.registration_plates}} </li>
-          {{/each}}
-
-        </ul>
+        <div class="display">
+          <ul>
+            {{#each display}}
+            <li>{{registration_plates}} </li>
+            {{/each}}
+          </ul>
+        </div>
       </div>
     </div>
   </div>
-</div <!-- End Document –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-</body </html>
+</div>
+<!-- End Document –––––––––––––––––––––––––––––––––––––––––––––––––– -->

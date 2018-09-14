@@ -103,7 +103,12 @@
     list-style: none;
     color: #fdfefe;
 }
-
+.error {
+    color: #e74c3c;
+}
+.success {
+    color: #2471A3;
+}
 /* add media queries */
 @media (max-width: 450px) {
     .header span {

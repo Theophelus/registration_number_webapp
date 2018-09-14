@@ -60,12 +60,29 @@ app.get('/', async (req, res, next) => {
 // define a POST ROUTE HANDLER TO ENTER REGISTATIONS INTO THE DATABASE
 app.post('/reg_number', async (req, res, next) => {
     try {
+        let regex = /^[a-zA-Z]{2,3}(\s)[0-9]{3}(\-)[0-9]{3}$/;
         let enterReg = req.body.inputTxt;
-        let display = await regNumber.addRegistration(enterReg);
-        res.render('home', {
-            display:
-            await regNumber.getReg()
-        });
+        if (!enterReg && enterReg == '') {
+            req.flash('error', 'Please Enter Registration Number');
+            return res.redirect('/');
+        } else {
+            if (enterReg.match(regex)) {
+                await regNumber.addRegistration(enterReg);
+                req.flash('success', 'Registration Added successfully..!');
+            } else if(!enterReg.match(regex)) {
+                req.flash('error', 'Please Enter The Correct Registration Number Format eg: CA 123-456');
+                return res.redirect('/');
+            }else {
+                req.flash('error', 'Registration Number should starts with: CA, CL, CJ and CAW Or Registration Number Already Exists..!');
+                return res.redirect('/');
+            }
+        }
+        if (enterReg !== undefined) {
+            res.render('home', {
+                display: await regNumber.getReg()
+            });
+        } 
+        // req.flash('success', 'Registration Added successfully..!');
     } catch (error) {
         console.log(next(error.stack));
     }

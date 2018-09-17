@@ -36,16 +36,15 @@
 
     <div class="dropDown">
       <p>FILTER BY TOWN..!</p>
-      <select onchange="filterBy(this)" class="towns" name="towns">
+      <select onchange="this.form.submit()" class="towns">
         <option> Select A Town </option>
         <option name='towns' value="allTowns" onchange="submit()"> allTowns </option>
         {{#each allTowns}}
-        <option name='towns' value="{{town_names}}" onchange="submit()"> {{town_names}} </option>
+        <option name='towns' value="{{town_code}}" {{selected}} > {{town_names}} </option>
         {{/each}}
       </select>
     </div>
   </form>
-
   <br>
   <div>
 

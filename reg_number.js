@@ -37,7 +37,6 @@ module.exports = function (pool) {
     }
     let populteTowns = async () => {
         let getTown = await pool.query('select town_names from towns');
-       // console.log(getTown);
         return getTown.rows;
     }
 
@@ -47,19 +46,8 @@ module.exports = function (pool) {
             return getReg();
         } else {
             let returnReg = await pool.query('SELECT towns.town_code, registration_numbers.registration_plates FROM registration_numbers INNER JOIN towns on registration_numbers.towns_id = towns.id WHERE town_code = $1', [towns]);
-           // console.log(returnReg.rows);
             return returnReg.rows;
         }
-    }
-
-    ///define a function to get selected town with registration_plates
-    let selectedTown = async () => {
-        let townCode = await townCodes();
-        let getRegistrations = await getReg();
-        let filteredResults = await filterRegistrations(getRegistrations, townCode);
-        filteredResults.forEach(element => {
-
-        });
     }
     return {
         addRegistration,
@@ -67,7 +55,7 @@ module.exports = function (pool) {
         townCodes,
         getReg,
         populteTowns,
-        filterRegistrations,
-        selectedTown
+        filterRegistrations
+        // selectedTown
     }
 }

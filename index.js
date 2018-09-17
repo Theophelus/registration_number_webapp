@@ -72,23 +72,15 @@ app.post('/reg_number', async (req, res, next) => {
             req.flash('error', 'Please Enter The Correct Registration Number Format eg: CA 123-456');
             return res.redirect('/');
         } else {
-            if(enterReg.match(regex)) {
+            if (enterReg.match(regex)) {
                 await regNumber.addRegistration(enterReg)
                 req.flash('success', 'Registration Added successfully..!');
                 res.redirect('/')
-            }else {
+            } else {
                 req.flash('error', 'Registration Number should starts with: CA, CL, CJ and CAW Or Registration Number Already Exists..!');
                 res.redirect('/')
             }
         }
-        // if (enterReg !== undefined) {
-        // res.render('home', {
-        // let display = await regNumber.filterRegistrations(towns)
-        // i
-        // });
-
-        // }
-
     } catch (error) {
         console.log(next(error.stack));
     }
@@ -96,12 +88,23 @@ app.post('/reg_number', async (req, res, next) => {
 
 //define a GET Route Handler for when filtering By towns
 app.post('/town', async (req, res, next) => {
-    let towns = req.body.towns;
-    let display = await regNumber.filterRegistrations(towns)
-    console.log(display)
-    res.render('home', {
-        display
-    });
+    try {
+        let code = await regNumber.townCodes();
+        let displayReg = await regNumber.filterRegistrations(req.body.town_code);
+        console.log(displayReg);
+        code.forEach(element => {
+            if (element.town_code === true) {
+                element.selected = 'selected';
+            }
+        });
+        res.render('home', {
+            code,
+            display: displayReg
+        });
+    }
+    catch (error) {
+        next(error.stack);
+    }
 });
 let PORT = process.env.PORT || 3020;
 app.listen(PORT, () => {

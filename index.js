@@ -69,10 +69,11 @@ app.post('/reg_number', async (req, res, next) => {
             if (enterReg.match(regex)) {
                 await regNumber.addRegistration(enterReg);
                 req.flash('success', 'Registration Added successfully..!');
-            } else if(!enterReg.match(regex)) {
+            } else
+            if (!enterReg.match(regex)) {
                 req.flash('error', 'Please Enter The Correct Registration Number Format eg: CA 123-456');
                 return res.redirect('/');
-            }else {
+            } else {
                 req.flash('error', 'Registration Number should starts with: CA, CL, CJ and CAW Or Registration Number Already Exists..!');
                 return res.redirect('/');
             }
@@ -81,12 +82,15 @@ app.post('/reg_number', async (req, res, next) => {
             res.render('home', {
                 display: await regNumber.getReg()
             });
-        } 
+        }
         // req.flash('success', 'Registration Added successfully..!');
     } catch (error) {
         console.log(next(error.stack));
     }
 });
+
+//define a GET Route Hendler for when filtering By towns
+
 let PORT = process.env.PORT || 3020;
 app.listen(PORT, () => {
     console.log('app starting on PORT', PORT);

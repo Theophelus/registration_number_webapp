@@ -17,7 +17,7 @@
             {{!-- <button type="button" class=" button-primary reset" style="background-color: #c0392b; border: 0px soloid  #c0392b;">reset</button>
             --}}
           </span>
-        </form>
+          {{!-- </form> --}}
       </div>
     </div>
   </div>
@@ -33,7 +33,8 @@
   </div>
   <div class="dropDown">
     <p>FILTER BY TOWN..!</p>
-    <select class="towns">
+    {{!-- <form action="/" method="post"></form> --}}
+    <select class="towns" name="towns">
       <option value="allTown" class="allTown">Select All Towns</option>
       <option value="CA " name="towns" class="towns">Cape Town</option>
       <option value="CJ " name="towns" class="towns">Paarl</option>
@@ -41,6 +42,7 @@
       <option value="CL " name="towns" class="towns">Stellenbosch</option>
     </select>
   </div>
+  </form>
   <br>
   <div>
     <h6>DISPLAY REGISTRATION NUMBERS:</h6>

@@ -6,7 +6,6 @@ module.exports = function (pool) {
         if (regNumbers !== '') {
             //loop through tags and check if it regnumber coming in starts with tag
             for (let i = 0; i < getCodes.length; i++) {
-
                 const element = getCodes[i].town_code;
                 //console.log(element);
                 if (regNumbers.startsWith(element)) {
@@ -36,10 +35,21 @@ module.exports = function (pool) {
         let selectReg = await pool.query('select registration_plates from registration_numbers');
         return selectReg.rows;
     }
+
+    //define a function to filter by towns
+    let filterRegistrations = async (towns) => {
+        if (towns === 'AllTown') {
+            return getReg();
+        } else {
+            let returnReg = await pool.query('SELECT towns.town_code, registration_numbers.registration_plates FROM registration_numbers INNER JOIN towns on registration_numbers.towns_id = towns.id WHERE town_code = $1', [towns]);
+            return returnReg.rows;
+        }
+    }
     return {
         addRegistration,
         getTownId,
         townCodes,
-        getReg
+        getReg,
+        filterRegistrations
     }
 }

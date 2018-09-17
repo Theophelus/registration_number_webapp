@@ -104,10 +104,10 @@
     color: #fdfefe;
 }
 .error {
-    color: #e74c3c;
+    color: #DF131F;
 }
 .success {
-    color: #2471A3;
+    color: #115F91;
 }
 /* add media queries */
 @media (max-width: 450px) {

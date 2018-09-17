@@ -32,16 +32,16 @@
     </div>
   </div>
   </form>
-  <form action="/" method="post">
+  <form action="/town" method="post">
 
     <div class="dropDown">
       <p>FILTER BY TOWN..!</p>
-      <select class="towns" name="towns" onclick="">
-        <option value="allTown" class="allTown">Select All Towns</option>
-        <option value="CA " name="towns" class="towns">Cape Town</option>
-        <option value="CJ " name="towns" class="towns">Paarl</option>
-        <option value="CAW " name="towns" class="towns">George</option>
-        <option value="CL " name="towns" class="towns">Stellenbosch</option>
+      <select onchange="filterBy(this)" class="towns" name="towns">
+        <option> Select A Town </option>
+        <option name='towns' value="allTowns" onchange="submit()"> allTowns </option>
+        {{#each allTowns}}
+        <option name='towns' value="{{town_names}}" onchange="submit()"> {{town_names}} </option>
+        {{/each}}
       </select>
     </div>
   </form>

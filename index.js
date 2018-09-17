@@ -50,8 +50,10 @@ app.use(express.static('public'));
 app.get('/', async (req, res, next) => {
     try {
         let display = await regNumber.getReg();
+        let allTowns = await regNumber.populteTowns()
         res.render('home', {
-            display
+            display,
+            allTowns
         });
     } catch (error) {
         console.log(next(error.stack));
@@ -66,26 +68,41 @@ app.post('/reg_number', async (req, res, next) => {
             req.flash('error', 'Please Enter Registration Number');
             return res.redirect('/');
         }
-
-        if (enterReg.match(regex)) {
-            req.flash('success', 'Registration Added successfully..!');
-        }
         if (!enterReg.match(regex)) {
             req.flash('error', 'Please Enter The Correct Registration Number Format eg: CA 123-456');
             return res.redirect('/');
+        } else {
+            if(enterReg.match(regex)) {
+                await regNumber.addRegistration(enterReg)
+                req.flash('success', 'Registration Added successfully..!');
+                res.redirect('/')
+            }else {
+                req.flash('error', 'Registration Number should starts with: CA, CL, CJ and CAW Or Registration Number Already Exists..!');
+                res.redirect('/')
+            }
         }
-        if (enterReg !== undefined) {
-            res.render('home', {
-                display: await regNumber.getReg(await regNumber.addRegistration(enterReg))
-            });
-        }
+        // if (enterReg !== undefined) {
+        // res.render('home', {
+        // let display = await regNumber.filterRegistrations(towns)
+        // i
+        // });
+
+        // }
+
     } catch (error) {
         console.log(next(error.stack));
     }
 });
 
-//define a GET Route Hendler for when filtering By towns
-
+//define a GET Route Handler for when filtering By towns
+app.post('/town', async (req, res, next) => {
+    let towns = req.body.towns;
+    let display = await regNumber.filterRegistrations(towns)
+    console.log(display)
+    res.render('home', {
+        display
+    });
+});
 let PORT = process.env.PORT || 3020;
 app.listen(PORT, () => {
     console.log('app starting on PORT', PORT);

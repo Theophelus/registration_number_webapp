@@ -35,16 +35,17 @@ module.exports = function (pool) {
         let selectReg = await pool.query('select registration_plates from registration_numbers');
         return selectReg.rows;
     }
-    let populteTowns = async () => {
-        let getTown = await pool.query('select town_names from towns');
+    let populateTowns = async () => {
+        let getTown = await pool.query('select town_code, town_names from towns');
         return getTown.rows;
     }
 
     //define a function to filter by towns
     let filterRegistrations = async (towns) => {
-        if (towns === 'AllTown') {
+        if (towns === 'allTown') {
             return getReg();
-        } else {
+        } else
+        if (towns !== 'allTown') {
             let returnReg = await pool.query('SELECT towns.town_code, registration_numbers.registration_plates FROM registration_numbers INNER JOIN towns on registration_numbers.towns_id = towns.id WHERE town_code = $1', [towns]);
             return returnReg.rows;
         }
@@ -54,7 +55,7 @@ module.exports = function (pool) {
         getTownId,
         townCodes,
         getReg,
-        populteTowns,
+        populateTowns,
         filterRegistrations
         // selectedTown
     }

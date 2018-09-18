@@ -14,13 +14,11 @@
         <form class="" action="/reg_number" method="post">
           <span>Registration Number:<input type="text" class="inputTxt" name='inputTxt'>
             <button type="submit" class="button-primary add" name='button'>add</button>
-            {{!-- <button type="button" class=" button-primary reset" style="background-color: #c0392b; border: 0px soloid  #c0392b;">reset</button>
-            --}}
           </span>
-          {{!-- </form> --}}
       </div>
     </div>
   </div>
+
   <div class="message" style="color: #c0392b; font-size: 16px; font-weight: 300; text-align: center; margin-bottom: 10px">
     <div class="row">
       <div class="twelve columns error">
@@ -32,22 +30,22 @@
     </div>
   </div>
   </form>
-  <form action="/town" method="post">
+  <br>
+  <form action="/selectedTowns" method="post">
 
     <div class="dropDown">
       <p>FILTER BY TOWN..!</p>
-      <select onchange="this.form.submit()" class="towns">
+      <select onchange="submit()" class="town" name="townNames">
         <option> Select A Town </option>
-        <option name='towns' value="allTowns" onchange="submit()"> allTowns </option>
-        {{#each allTowns}}
-        <option name='towns' value="{{town_code}}" {{selected}} > {{town_names}} </option>
+        <option name='townNames' value="allTown"> all Towns</option>
+        {{#each selectedTown}}
+        <option value="{{town_code}}" name='townNames' {{selected}}>{{town_names}} </option>
         {{/each}}
       </select>
     </div>
   </form>
   <br>
   <div>
-
     <h6>DISPLAY REGISTRATION NUMBERS:</h6>
 
     <div class="row">

@@ -49,11 +49,11 @@ app.use(express.static('public'));
 //define a get route handler to render home
 app.get('/', async (req, res, next) => {
     try {
+        let selectedTown = await regNumber.populateTowns()
         let display = await regNumber.getReg();
-        let allTowns = await regNumber.populteTowns()
         res.render('home', {
             display,
-            allTowns
+            selectedTown
         });
     } catch (error) {
         console.log(next(error.stack));
@@ -74,6 +74,7 @@ app.post('/reg_number', async (req, res, next) => {
         } else {
             if (enterReg.match(regex)) {
                 await regNumber.addRegistration(enterReg)
+                console.log(await regNumber.addRegistration(enterReg));
                 req.flash('success', 'Registration Added successfully..!');
                 res.redirect('/')
             } else {
@@ -87,22 +88,24 @@ app.post('/reg_number', async (req, res, next) => {
 });
 
 //define a GET Route Handler for when filtering By towns
-app.post('/town', async (req, res, next) => {
+app.post('/selectedTowns', async (req, res, next) => {
     try {
-        let code = await regNumber.townCodes();
-        let displayReg = await regNumber.filterRegistrations(req.body.town_code);
-        console.log(displayReg);
-        code.forEach(element => {
-            if (element.town_code === true) {
-                element.selected = 'selected';
+        getTown = req.body.townNames;
+        let selectedTown = await regNumber.populateTowns(getTown);
+        let display = await regNumber.filterRegistrations(getTown);
+        console.log(display);
+        for (let i = 0; i < selectedTown.length; i++) {
+            const element = selectedTown[i];
+            if (element.town_code === getTown) {
+                element['selected'] = 'selected';
+                break;
             }
-        });
+        }
         res.render('home', {
-            code,
-            display: displayReg
+            display,
+            selectedTown
         });
-    }
-    catch (error) {
+    } catch (error) {
         next(error.stack);
     }
 });

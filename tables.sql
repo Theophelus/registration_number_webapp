@@ -1,4 +1,3 @@
-DROP table if exists towns, registration_numbers;
 
 create table towns
 (
@@ -12,7 +11,7 @@ create table registration_numbers
     id serial not null primary key,
     registration_plates text not null,
     towns_id int,
-    foreign key (towns_id) references towns(id) on DELETE CASCADE
+    foreign key (towns_id) references towns(id)
 );
 
 insert into towns(town_names, town_code) values('Cape Town', 'CA');

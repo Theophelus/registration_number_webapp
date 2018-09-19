@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const flash = require('express-flash');
 const session = require('express-session');
 const Reg_numbers = require('./reg_number');
-// const session = require('express-session');
+const RegRoutes = require('./routes/registration_routes')
 const pg = require("pg");
 const Pool = pg.Pool;
 
@@ -33,6 +33,7 @@ const pool = new Pool({
 });
 // define instance of factory function
 let regNumber = Reg_numbers(pool);
+let regRoutes = RegRoutes(regNumber);
 //configure express handlebars
 app.engine('handlebars', exphbs({
     defaultLayout: 'main'
@@ -46,77 +47,13 @@ app.use(bodyParser.json());
 //configure public for=lder for static files
 app.use(express.static('public'));
 
-//define a get route handler to render home
-app.get('/', async (req, res, next) => {
-    try {
-        let selectedTown = await regNumber.populateTowns()
-        let display = await regNumber.getReg();
-        res.render('home', {
-            display,
-            selectedTown
-        });
-    } catch (error) {
-        console.log(next(error.stack));
-    }
-});
+//setup handlers
+app.get('/', regRoutes.displayHome);
+app.get('/delete', regRoutes.deleted);
+app.post('/reg_number', regRoutes.addReg);
+app.post('/selectedTowns', regRoutes.filterReg);
 
-app.get('/delete', async (req, res, next) => {
-    try {
-        await regNumber.deleteRegistrations()
-        req.flash('success', 'All Registrayions Have Been Deleted Successfull...!');
-        res.redirect('/');
-    } catch (error) {
-        console.log(next(error.stack));
-    }
-});
-// define a POST ROUTE HANDLER TO ENTER REGISTATIONS INTO THE DATABASE
-app.post('/reg_number', async (req, res, next) => {
-    try {
-        let regex = /^[a-zA-Z]{2,3}(\s)[0-9]{3}(\-)[0-9]{3}$/;
-        let enterReg = req.body.inputTxt;
-        if (!enterReg && enterReg == '') {
-            req.flash('error', 'Please Enter Registration Number');
-            return res.redirect('/');
-        }
-        if (!enterReg.match(regex)) {
-            req.flash('error', 'Please Enter The Correct Registration Number Format eg: CA 123-456');
-            return res.redirect('/');
-        } else {
-            if (enterReg.match(regex)) {
-                await regNumber.addRegistration(enterReg)
-                console.log(await regNumber.addRegistration(enterReg));
-                req.flash('success', 'Registration Added successfully..!');
-                res.redirect('/')
-            } else {
-                req.flash('error', 'Registration Number should starts with: CA, CL, CJ and CAW Or Registration Number Already Exists..!');
-                res.redirect('/')
-            }
-        }
-    } catch (error) {
-        console.log(next(error.stack));
-    }
-});
 
-//define a GET Route Handler for when filtering By towns
-app.post('/selectedTowns', async (req, res, next) => {
-    try {
-        getTown = req.body.townNames;
-        let selectedTown = await regNumber.populateTowns(getTown);
-        let display = await regNumber.filterRegistrations(getTown);
-        selectedTown = selectedTown.map((element) => {
-            if (element.town_code === getTown) {
-                element['selected'] = 'selected';
-            }
-            return element;
-        });
-        res.render('home', {
-            display,
-            selectedTown
-        });
-    } catch (error) {
-        next(error.stack);
-    }
-});
 let PORT = process.env.PORT || 3020;
 app.listen(PORT, () => {
     console.log('app starting on PORT', PORT);

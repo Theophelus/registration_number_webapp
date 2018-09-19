@@ -138,7 +138,10 @@
     cursor: pointer;
     box-sizing: border-box;
 }
-
+.reset:hover {
+    background-color: #FDEDEC;
+    color: #E74C3C;
+}
 /* add media queries */
 @media (max-width: 450px) {
     .header span {

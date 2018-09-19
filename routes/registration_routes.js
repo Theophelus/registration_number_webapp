@@ -1,4 +1,4 @@
-module.exports =  (regNumber) => {
+module.exports = (regNumber) => {
 
     let displayHome = async (req, res, next) => {
         try {
@@ -15,7 +15,9 @@ module.exports =  (regNumber) => {
     let addReg = async (req, res, next) => {
         try {
             let regex = /^[a-zA-Z]{2,3}(\s)[0-9]{3}(\-)[0-9]{3}$/;
+
             let enterReg = req.body.inputTxt;
+
             if (!enterReg && enterReg == '') {
                 req.flash('error', 'Please Enter Registration Number');
                 return res.redirect('/');
@@ -24,20 +26,22 @@ module.exports =  (regNumber) => {
                 req.flash('error', 'Please Enter The Correct Registration Number Format eg: CA 123-456');
                 return res.redirect('/');
             } else {
-                if (enterReg.match(regex)) {
-                    await regNumber.addRegistration(enterReg)
-                    console.log(await regNumber.addRegistration(enterReg));
-                    req.flash('success', 'Registration Added successfully..!');
-                    res.redirect('/')
-                } else {
+                if (await regNumber.getReg(enterReg)) {
                     req.flash('error', 'Registration Number should starts with: CA, CL, CJ and CAW Or Registration Number Already Exists..!');
                     res.redirect('/')
+                } else {
+                    if (enterReg.match(regex)) {
+                        await regNumber.addRegistration(enterReg)
+                        req.flash('success', 'Registration Added successfully..!');
+                        res.redirect('/')
+                    }
                 }
             }
         } catch (error) {
             console.log(next(error.stack));
         }
     }
+
     let filterReg = async (req, res, next) => {
         try {
             getTown = req.body.townNames;

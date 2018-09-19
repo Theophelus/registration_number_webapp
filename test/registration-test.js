@@ -20,7 +20,6 @@ describe('registration number widget', function () {
 
     });
 
-
     it('should be able to return all registration numbers inside the registrstion numbers table', async () => {
         await newRegistration.addRegistration('CA 123-345');
         await newRegistration.addRegistration('CJ 567-787');

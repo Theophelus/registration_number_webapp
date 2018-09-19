@@ -109,13 +109,15 @@
 }
 
 .success {
-    color: #115F91;
+    color: #1E8449;
 }
 
 .fa-trash {
     color: #F70917;
 }
-
+.fa-trash:hover {
+    font-size: 18px;
+}
 .reset {
     display: inline-block;
     height: 38px;

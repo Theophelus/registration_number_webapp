@@ -62,8 +62,8 @@ app.get('/', async (req, res, next) => {
 
 app.get('/delete', async (req, res, next) => {
     try {
-        console.log(await regNumber.deleteRegistrations());
         await regNumber.deleteRegistrations()
+        req.flash('success', 'All Registrayions Have Been Deleted Successfull...!');
         res.redirect('/');
     } catch (error) {
         console.log(next(error.stack));

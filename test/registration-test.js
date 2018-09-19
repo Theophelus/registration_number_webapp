@@ -1,104 +1,82 @@
-// const assert = require('assert');
-// const Registrations = require('../reg_number');
-// const pg = require("pg");
-// const Pool = pg.Pool;
+const assert = require('assert');
+const Registrations = require('../reg_number');
+const pg = require("pg");
+const Pool = pg.Pool;
 
-// //define a connection string to be able to connect to the database.
-// const connectionString = process.env.DATABASE_URL || 'postgresql://coder:pg123@localhost:5432/registration_numberDB';
+//define a connection string to be able to connect to the database.
+const connectionString = process.env.DATABASE_URL || 'postgresql://coder:pg123@localhost:5432/registration_numberDB';
 
-// const pool = new Pool({
-//   connectionString
-// });
-// let newRegistration = Registrations(pool);
+const pool = new Pool({
+    connectionString
+});
+let newRegistration = Registrations(pool);
 
-// describe('registration number widget', function () {
+describe('registration number widget', function () {
 
-//   // the Factory Function is called newGreet
-//   beforeEach(async () => {
-//     // clean the tables before each test run
-//     // await pool.query("delete from towns;");
-//     await pool.query("delete from registration_numbers;");
+    // the Factory Function is called newGreet
+    beforeEach(async () => {
+        // clean the tables before each test run
+        // await pool.query("delete from towns;");
+        await pool.query("delete from registration_numbers;");
 
-//   });
-//   it('map should not take a registration number more than once', async () => {
-//     // await newRegistration.addRegistration('CA 123-345');
-//     // await newRegistration.addRegistration('CJ 567-787');
-//     // await newRegistration.addRegistration('CA 123-345');
-//     assert.equal(await newRegistration.getReg('CA 123-345', 'CJ 567-787'),
-//       [{
-//         registration_plates: 'CA 123-456'
-//       }, {
-//         registration_plates: 'CJ 567-787'
-//       }]);
-//   });
+    });
 
-//   it('should be able to return all registration numbers inside the registrstion numbers table', async () => {
-//     await newRegistration.addRegistration('CA 123-345');
-//     await newRegistration.addRegistration('CJ 567-787');
-//     await newRegistration.addRegistration('CAW 983-785');
-//     await newRegistration.addRegistration('CY 689-462');
-//     assert.strictEqual(await newRegistration.getReg(), [{
-//         registration_plates: 'CA 123-345',
-//         town_id: 1
-//       },
-//       {
-//         registration_plates: 'CJ 567-787'
-//       },
-//       {
-//         registration_plates: 'CAW 983-785'
-//       },
-//       {
-//         registration_plates: 'CY 689-462'
-//       }
-//     ]);
-//   });
-//   // it('should be able to return registration number from Cape Town', function () {
-//   //   var newRegistration = registration();
-//   //   newRegistration.setMap('CA 123-456');
-//   //   newRegistration.setMap('CA 123-956');
-//   //   newRegistration.setMap('CL 123-456');
-//   //   newRegistration.setMap('CJ 123-456');
-//   //   var getList = newRegistration.getMap()
-//   //   assert.deepEqual(newRegistration.getReg(getList, 'CA'), ['CA 123-456', 'CA 123-956']);
-//   // });
-//   // it('should be able to return registration number from StellenBosch', function () {
-//   //   var newRegistration = registration();
-//   //   newRegistration.setMap('CA 123-456');
-//   //   newRegistration.setMap('CL 123-956');
-//   //   newRegistration.setMap('CL 123-456');
-//   //   newRegistration.setMap('CJ 123-456');
-//   //   newRegistration.setMap('CAW 123-456');
-//   //   var getList = newRegistration.getMap()
-//   //   assert.deepEqual(newRegistration.getReg(getList, 'CL'), ['CL 123-956', 'CL 123-456']);
-//   // });
-//   // it('should be able to return registration number from Paarl', function () {
-//   //   var newRegistration = registration();
-//   //   newRegistration.setMap('CA 123-456');
-//   //   newRegistration.setMap('CA 123-956');
-//   //   newRegistration.setMap('CL 123-456');
-//   //   newRegistration.setMap('CJ 123-456');
-//   //   newRegistration.setMap('CAW 123-456');
-//   //   var getList = newRegistration.getMap()
-//   //   assert.deepEqual(newRegistration.getReg(getList, 'CJ'), ['CJ 123-456']);
-//   // });
-//   // it('should be able to return registration number from George', function () {
-//   //   var newRegistration = registration();
-//   //   newRegistration.setMap('CA 123-456');
-//   //   newRegistration.setMap('CA 123-956');
-//   //   newRegistration.setMap('CL 123-456');
-//   //   newRegistration.setMap('CJ 123-456');
-//   //   newRegistration.setMap('CAW 123-456');
-//   //   var getList = newRegistration.getMap()
-//   //   assert.deepEqual(newRegistration.getReg(getList, 'CAW'), ['CAW 123-456']);
-//   // });
 
-//   // it('should be able to return all registration numbers from all towns', function () {
-//   //   var newRegistration = registration();
-//   //   newRegistration.setMap('CA 123-456');
-//   //   newRegistration.setMap('CL 123-456');
-//   //   newRegistration.setMap('CJ 123-456');
-//   //   newRegistration.setMap('CAW 123-456');
-//   //   //var getList = newRegistration.getMap()
-//   //   assert.deepEqual(newRegistration.getMap('allTown'), ['CA 123-456', 'CL 123-456', 'CJ 123-456', 'CAW 123-456']);
-//   // });
-// });
+    it('should be able to return all registration numbers inside the registrstion numbers table', async () => {
+        await newRegistration.addRegistration('CA 123-345');
+        await newRegistration.addRegistration('CJ 567-787');
+        await newRegistration.addRegistration('CAW 983-785');
+        await newRegistration.addRegistration('CY 689-462');
+        assert.deepEqual(await newRegistration.getReg(), [{
+                registration_plates: 'CA 123-345',
+            },
+            {
+                registration_plates: 'CJ 567-787'
+            },
+            {
+                registration_plates: 'CAW 983-785'
+            },
+            {
+                registration_plates: 'CY 689-462'
+            }
+        ]);
+    });
+    it('should be able to return registration number from Cape Town', async function () {
+     await newRegistration.addRegistration('CA 123-456');
+     await newRegistration.addRegistration('CA 123-956');
+     await newRegistration.addRegistration('CL 123-456');
+     await newRegistration.addRegistration('CJ 123-456');
+      assert.deepEqual(await newRegistration.filterRegistrations('CA'), [{town_code:'CA', registration_plates:'CA 123-456'}, {town_code:'CA', registration_plates:'CA 123-956'}]);
+    });
+    it('should be able to return registration number from StellenBosch', async function () {
+     await newRegistration.addRegistration('CA 123-456');
+     await newRegistration.addRegistration('CL 123-956');
+     await newRegistration.addRegistration('CL 123-456');
+     await newRegistration.addRegistration('CJ 123-456');
+     await newRegistration.addRegistration('CAW 123-456');
+      assert.deepEqual(await newRegistration.filterRegistrations('CL'), [{town_code:'CL', registration_plates:'CL 123-956'}, {town_code:'CL', registration_plates:'CL 123-456'}]);
+    });
+    it('should be able to return registration number from Paarl', async function () {
+      await newRegistration.addRegistration('CA 123-456');
+      await newRegistration.addRegistration('CA 123-956');
+      await newRegistration.addRegistration('CL 123-456');
+      await newRegistration.addRegistration('CJ 123-456');
+      assert.deepEqual(await newRegistration.filterRegistrations('CJ'), [{town_code: 'CJ', registration_plates:'CJ 123-456'}]);
+    });
+    it('should be able to return registration number from George', async function () {
+     await newRegistration.addRegistration('CA 123-456');
+     await newRegistration.addRegistration('CA 123-956');
+     await newRegistration.addRegistration('CL 123-456');
+     await newRegistration.addRegistration('CJ 123-456');
+     await newRegistration.addRegistration('CAW 123-456');
+      assert.deepEqual(await newRegistration.filterRegistrations('CAW'), [{town_code: 'CAW', registration_plates:'CAW 123-456'}]);
+    });
+
+    it('should be able to return all registration numbers from all towns', async function () {
+        await newRegistration.addRegistration('CA 123-456');
+        await newRegistration.addRegistration('CL 123-456');
+        await newRegistration.addRegistration('CJ 123-456');
+        await newRegistration.addRegistration('CAW 123-456');
+        assert.deepEqual(await newRegistration.getReg('allTown'), [{registration_plates:'CA 123-456'}, {registration_plates:'CL 123-456'}, {registration_plates:'CJ 123-456'}, {registration_plates:'CAW 123-456'}]);
+    });
+});

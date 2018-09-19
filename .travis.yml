@@ -7,8 +7,8 @@ node_js:
 
 before_script:
 
-  - psql -c 'create database  registration_numbers;' -U postgres
-  - psql -U postgres -d registration_numbers -a -f tables.sql
+  - psql -c 'create database  registration_numberDB;' -U postgres
+  - psql -U postgres -d registration_numberDB -a -f tables.sql
 
 addons:
     apt:

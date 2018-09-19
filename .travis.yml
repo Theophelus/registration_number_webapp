@@ -1,7 +1,7 @@
 language: node_js
 
 env:
-     - DB=postgresql://postgres@localhost:5432/registration_numbers
+     - DB=postgresql://coder:pg123@localhost:5432/registration_numberDB
 node_js:
         - "8.9.4"
 

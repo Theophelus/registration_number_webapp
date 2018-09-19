@@ -50,13 +50,19 @@ module.exports = function (pool) {
             return returnReg.rows;
         }
     }
+
+    //define a function to delete all registrations
+    let deleteRegistrations = async () => {
+        let deletes = await pool.query('delete from registration_numbers');
+        return deletes.rows[0];
+    }
     return {
         addRegistration,
         getTownId,
         townCodes,
         getReg,
         populateTowns,
-        filterRegistrations
-        // selectedTown
+        filterRegistrations,
+        deleteRegistrations
     }
 }

@@ -59,6 +59,16 @@ app.get('/', async (req, res, next) => {
         console.log(next(error.stack));
     }
 });
+
+app.get('/delete', async (req, res, next) => {
+    try {
+        console.log(await regNumber.deleteRegistrations());
+        await regNumber.deleteRegistrations()
+        res.redirect('/');
+    } catch (error) {
+        console.log(next(error.stack));
+    }
+});
 // define a POST ROUTE HANDLER TO ENTER REGISTATIONS INTO THE DATABASE
 app.post('/reg_number', async (req, res, next) => {
     try {

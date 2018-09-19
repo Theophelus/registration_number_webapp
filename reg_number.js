@@ -14,8 +14,8 @@ module.exports = function (pool) {
                     if (checkReg.rowCount === 0) {
                         let regId = await getTownId(registrations);
                         await pool.query('insert into registration_numbers(registration_plates, towns_id) values($1, $2)', [regNumbers, regId.id]);
+                        return 'successfull';
                     }
-                    // break;
                 }
             }
         }

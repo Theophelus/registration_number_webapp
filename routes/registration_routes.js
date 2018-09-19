@@ -26,13 +26,14 @@ module.exports = (regNumber) => {
                 req.flash('error', 'Please Enter The Correct Registration Number Format eg: CA 123-456');
                 return res.redirect('/');
             } else {
-                if (await regNumber.getReg(enterReg)) {
-                    req.flash('error', 'Registration Number should starts with: CA, CL, CJ and CAW Or Registration Number Already Exists..!');
-                    res.redirect('/')
-                } else {
-                    if (enterReg.match(regex)) {
-                        await regNumber.addRegistration(enterReg)
+                if (enterReg.match(regex) !== undefined && await regNumber.townCodes(enterReg)) {
+                    let getR = await regNumber.addRegistration(enterReg)
+                    console.log(getR);
+                    if (getR === 'successfull') {
                         req.flash('success', 'Registration Added successfully..!');
+                        res.redirect('/')
+                    } else {
+                        req.flash('error', 'Registration Number should starts with: CA, CL, CJ and CAW Or Registration Number Already Exists..!');
                         res.redirect('/')
                     }
                 }
@@ -63,9 +64,15 @@ module.exports = (regNumber) => {
     }
     let deleted = async (req, res, next) => {
         try {
-            await regNumber.deleteRegistrations()
-            req.flash('success', 'All Registrayions Have Been Deleted Successfull...!');
-            res.redirect('/');
+            if (await regNumber.getReg() == '') {
+                req.flash('error', 'Registration Numbers Empty..!');
+                return res.redirect('/');
+            } else {
+                await regNumber.deleteRegistrations()
+                req.flash('success', 'All Registrayions Have Been Deleted Successfull...!');
+                res.redirect('/');
+            }
+
         } catch (error) {
             console.log(next(error.stack));
         }

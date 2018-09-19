@@ -103,7 +103,6 @@ app.post('/selectedTowns', async (req, res, next) => {
         getTown = req.body.townNames;
         let selectedTown = await regNumber.populateTowns(getTown);
         let display = await regNumber.filterRegistrations(getTown);
-        console.log(display);
         for (let i = 0; i < selectedTown.length; i++) {
             const element = selectedTown[i];
             if (element.town_code === getTown) {

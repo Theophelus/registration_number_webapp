@@ -5,6 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             errorMessages.innerHTML = '';
             successMessages.innerHTML = '';
-        }, 3000);
+        }, 1500);
     }
 });

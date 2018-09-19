@@ -26,12 +26,12 @@ module.exports = (regNumber) => {
                 req.flash('error', 'Please Enter The Correct Registration Number Format eg: CA 123-456');
                 return res.redirect('/');
             } else {
-                if (enterReg.match(regex) !== undefined && await regNumber.townCodes(enterReg)) {
+                if (enterReg.match(regex) !== undefined) {
                     let getR = await regNumber.addRegistration(enterReg)
-                    console.log(getR);
                     if (getR === 'successfull') {
+                        let display = await regNumber.getReg();
                         req.flash('success', 'Registration Added successfully..!');
-                        res.redirect('/')
+                        res.render('home', {display});
                     } else {
                         req.flash('error', 'Registration Number should starts with: CA, CL, CJ and CAW Or Registration Number Already Exists..!');
                         res.redirect('/')

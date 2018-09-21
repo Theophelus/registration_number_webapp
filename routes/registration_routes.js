@@ -14,9 +14,9 @@ module.exports = (regNumber) => {
     }
     let addReg = async (req, res, next) => {
         try {
-            let regex = /^[a-zA-Z]{2,3}(\s)[0-9]{3}(\-)[0-9]{3}$/;
+            let regex = /^[a-zA-Z]{2,3}(\s)(?:([0-9]{3}[-][0-9]{2,3})|([0-9]{3,5}))$/;
 
-            let enterReg = req.body.inputTxt;
+            let enterReg = req.body.inputTxt.trim().toUpperCase();;
 
             if (!enterReg && enterReg == '') {
                 req.flash('error', 'Please Enter Registration Number');

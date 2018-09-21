@@ -103,13 +103,13 @@ describe('registration number widget', function () {
             registration_plates: 'CAW 123-456'
         }]);
     });
-    if ('should be able to delete all registrations from registration_numbers table', async function () {
+    it ('should be able to delete all registrations from registration_numbers table', async function () {
             await newRegistration.addRegistration('CA 123-456');
             await newRegistration.addRegistration('CL 123-956');
             await newRegistration.addRegistration('CL 123-456');
             await newRegistration.addRegistration('CJ 123-456');
             await newRegistration.addRegistration('CAW 123-456');
             await newRegistration.deleteRegistrations();
-            aseert.deepEqual(await newRegistration.getReg, []);
+            assert.deepEqual(await newRegistration.getReg(), []);
         });
 });

@@ -18,4 +18,8 @@ insert into towns(town_names, town_code) values('Cape Town', 'CA');
 insert into towns(town_names, town_code) values('Paarl', 'CL');
 insert into towns(town_names, town_code) values('George', 'CAW');
 insert into towns(town_names, town_code) values('Stellenbosch', 'CJ');
+insert into towns(town_names, town_code) values('Stellenbosch', 'CJ');
+insert into towns(town_names, town_code) values('Somerset West', 'CFM');
+insert into towns(town_names, town_code) values('Bellville', 'CY');
 
+ 

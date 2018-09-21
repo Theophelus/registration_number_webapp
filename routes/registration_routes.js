@@ -33,7 +33,7 @@ module.exports = (regNumber) => {
                         req.flash('success', 'Registration Added successfully..!');
                         res.render('home', {display});
                     } else {
-                        req.flash('error', 'Registration Number should starts with: CA, CL, CJ and CAW Or Registration Number Already Exists..!');
+                        req.flash('error', 'Registration Number should starts with: CA, CL, CJ, CAW, CFM And CY Or Registration Number Already Exists..!');
                         res.redirect('/')
                     }
                 }

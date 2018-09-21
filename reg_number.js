@@ -44,8 +44,7 @@ module.exports = function (pool) {
     let filterRegistrations = async (towns) => {
         if (towns === 'allTown') {
             return getReg();
-        } else
-        if (towns !== 'allTown') {
+        } else if (towns !== 'allTown') {
             let returnReg = await pool.query('SELECT towns.town_code, registration_numbers.registration_plates FROM registration_numbers INNER JOIN towns on registration_numbers.towns_id = towns.id WHERE town_code = $1', [towns]);
             return returnReg.rows;
         }

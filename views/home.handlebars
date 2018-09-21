@@ -24,10 +24,15 @@
   <div class="message" style="color: #c0392b; font-size: 16px; font-weight: 300; text-align: center; margin-bottom: 10px">
     <div class="row">
       <div class="twelve columns error">
+        {{#if messages.error}}
         <h6> {{messages.error}} </h6>
+        {{/if}}
       </div>
       <div class="success">
+        {{#if messages.error}}
         <h6> {{messages.success}} </h6>
+        {{/if }}
+
       </div>
     </div>
   </div>
